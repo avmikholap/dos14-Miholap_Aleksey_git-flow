@@ -1,9 +1,9 @@
 ### Course DevOps TMS
-####*_Hi_*####
+#### *_Hi_* ####
 *_This is the homework repository for the DevOps course from the_* **TeachMeSkills**
 *_Here I will show my progress._*
 
-####Homework 14####
+#### **Homework 14** ####
 + 1 Создать новый репозиторий dos14-  family_name-git-flow  
 + 2 Создать 2 ветки master develop  
 + 3 Cоздать ветку feature-hw-14  
