@@ -6,7 +6,9 @@ authors = ["Aleksey Miholap <mixxxal1995@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-black = "^23.3.0"
+
+[tool.poetry.group.dev]
+optional = true
 
 [tool.poetry.dev-dependencies]
 black = "^23.3.0"
