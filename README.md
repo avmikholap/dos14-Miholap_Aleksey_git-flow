@@ -11,4 +11,3 @@
 + 5.Сделать black ./
 + 6.Закоммитить все файлы (pyptoject.toml, poetry.lock, main.py etc) в feature ветку, слить ее с develop(без апрува)
 + 7.По готовности сделать пулл реквест в master с апрувером @ggramal, отписаться в тг канале
-
