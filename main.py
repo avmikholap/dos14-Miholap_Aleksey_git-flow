@@ -7,7 +7,7 @@ from datetime import date
 users_csv = []
 
 # открываем файл .csv в режиме чтения
-with open("/home/aleksey_m/homework_devops/lesson_17/users.csv", "r") as f:
+with open("users.csv", "r") as f:
     csv_reader = csv.DictReader(f)
     for row in csv_reader:  # проходимся циклом по файлу и записываем в словарь
         user_csv_dict = {
@@ -22,7 +22,7 @@ with open("/home/aleksey_m/homework_devops/lesson_17/users.csv", "r") as f:
 users_yaml = []
 
 # открываем файл .yaml в режиме чтения
-with open("/home/aleksey_m/homework_devops/lesson_17/users.yaml", "r") as f:
+with open("users.yaml", "r") as f:
     yaml_reader = yaml.load(f, Loader=yaml.FullLoader)
     # проходимся циклом по файлу и записываем в словарь
     for user in yaml_reader["users"]:
@@ -55,7 +55,7 @@ with open("/home/aleksey_m/homework_devops/lesson_17/users.json", "w") as f:
 
 # функция добавления нового пользователя
 def user_add(first_name, last_name, fathers_name, date_of_birth):
-    with open("/home/aleksey_m/homework_devops/lesson_17/users.json", "r") as f:
+    with open("users.json", "r") as f:
         data_json = json.load(f)
         # Сортирую по id файл, чтобы далее добавлять нового пользовтаеля, отталкиваясь от последнего номера
         data_json.sort(key=lambda id: int(id["id"]))
@@ -81,3 +81,4 @@ user_add(
     fathers_name=input("fathers_name:"),
     date_of_birth=input("date_of_birth:"),
 )
+
