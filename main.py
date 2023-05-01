@@ -45,6 +45,8 @@ first_name.sort(key=lambda id: int(id.split("_")[0]))
 last_name.sort(key=lambda id: int(id.split("_")[0]))
 dat_of_birth.sort(key=lambda id: int(id.split("_")[0]))
 
+users_array = []
+
 # здесь проходимся по массивам и делим на две части, на ключ и значение массива
 for i in range(len(first_name)):
     splitted_first_name = first_name[i].split("_")
@@ -52,14 +54,14 @@ for i in range(len(first_name)):
     splitted_dat_of_birth = dat_of_birth[i].split("_")
 
     # создал отдельные словари на основании разделения на подмассивы
-    first_name_dict = {"id": splitted_first_name[0], "surname": splitted_first_name[1]}
-    last_name_dict = {"id": splitted_last_name[0], "name": splitted_last_name[1]}
-    dat_of_birth_dict = {
-        "id": splitted_dat_of_birth[0],
-        "date of birth": splitted_dat_of_birth[1],
-    }
+    #first_name_dict = {"id": splitted_first_name[0], "surname": splitted_first_name[1]}
+    #last_name_dict = {"id": splitted_last_name[0], "name": splitted_last_name[1]}
+    #dat_of_birth_dict = {
+    #    "id": splitted_dat_of_birth[0],
+    #    "date of birth": splitted_dat_of_birth[1],
+    #}
 
-    users_array = []  # массив для словаря
+    #users_array = []  # массив для словаря
 
     # создаю общий словарь пользовтаеля и указываю формат, в какой виде будет словарь, соотношение ключа и значения
     users_dict = {
@@ -69,4 +71,4 @@ for i in range(len(first_name)):
         "date of dirth": splitted_dat_of_birth[1],
     }
     users_array.append(users_dict)
-    print(users_array)
+print(users_array)
