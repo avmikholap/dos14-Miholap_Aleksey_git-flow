@@ -62,10 +62,10 @@ with open("users.yaml", "r") as f:
             "fathers_name": user["fathers_name"],
             "date_of_birth": user["date_of_birth"],
         }
-        users_yaml.append(users_yaml_dict)  # добавляем в массив наш словарь
-
+        users_csv.append(users_yaml_dict)  # добавляем в массив наш словарь
+#print(users_csv)
 # объединяем массивы, через расширение первого списка, вторым списком
-users_csv.extend(users_yaml)
+#users_csv.extend(users_yaml)
 
 # функция для расчёта возраста
 def users_age(year_of_birth):
@@ -79,7 +79,7 @@ for user in users_csv:
     user["age"] = age
 
 # открываем файл с режимом записи
-with open("/home/aleksey_m/homework_devops/lesson_17/users.json", "w") as f:
+with open("users.json", "w") as f:
     json.dump(users_csv, f, indent=3, ensure_ascii=False)
 
 # функция добавления нового пользователя
