@@ -19,8 +19,6 @@ with open("users.csv", "r") as f:
         }
         users_csv.append(user_csv_dict)  # добавляем в массив наш словарь
 
-#users_yaml = []
-
 # открываем файл .yaml в режиме чтения
 with open("users.yaml", "r") as f:
     yaml_reader = yaml.load(f, Loader=yaml.FullLoader)
