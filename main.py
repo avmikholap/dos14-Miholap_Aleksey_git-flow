@@ -32,8 +32,8 @@ with open("users.yaml", "r") as f:
             "date_of_birth": user["date_of_birth"],
         }
         users_csv.append(users_yaml_dict)  # добавляем в массив наш словарь
-#print(users_csv)
-# объединяем массивы, через расширение первого списка, вторым списком
+
+#объединяем массивы, через расширение первого списка, вторым списком
 #users_csv.extend(users_yaml)
 
 # функция для расчёта возраста
