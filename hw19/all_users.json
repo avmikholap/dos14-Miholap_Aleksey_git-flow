@@ -1,0 +1,744 @@
+{
+   "Users": [
+      {
+         "client_id": 1,
+         "first_name": "Марк",
+         "last_name": "Калашников",
+         "fathers_name": "Анатольевич",
+         "date_of_birth": "1985",
+         "role": {
+            "name": "default",
+            "permissions": {
+               "Credit": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               },
+               "Organisation": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "Person": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 2,
+         "first_name": "Варвара",
+         "last_name": "Комарова",
+         "fathers_name": "Олеговна",
+         "date_of_birth": "1996",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 3,
+         "first_name": "Антон",
+         "last_name": "Смирнов",
+         "fathers_name": "Эдуардович",
+         "date_of_birth": "1978",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 4,
+         "first_name": "Владислав",
+         "last_name": "Назаров",
+         "fathers_name": "Владимирович",
+         "date_of_birth": "2001",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 5,
+         "first_name": "Анастасия",
+         "last_name": "Леонова",
+         "fathers_name": "Валерьевна",
+         "date_of_birth": "1970",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 6,
+         "first_name": "Алина",
+         "last_name": "Соколова",
+         "fathers_name": "Васильевна",
+         "date_of_birth": "1990",
+         "role": {
+            "name": "default",
+            "permissions": {
+               "Credit": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               },
+               "Organisation": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "Person": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 7,
+         "first_name": "Василиса",
+         "last_name": "Дроздова",
+         "fathers_name": "Игоревна",
+         "date_of_birth": "2004",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 8,
+         "first_name": "Амелия",
+         "last_name": "Гордеева",
+         "fathers_name": "Александровна",
+         "date_of_birth": "1963",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 9,
+         "first_name": "Владислав",
+         "last_name": "Николаев",
+         "fathers_name": "Иосифович",
+         "date_of_birth": "1966",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 10,
+         "first_name": "София",
+         "last_name": "Некрасов",
+         "fathers_name": "Игоревна",
+         "date_of_birth": "1982",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 11,
+         "first_name": "Шапошников",
+         "last_name": "Григорий",
+         "fathers_name": "Леонидович",
+         "date_of_birth": "1944",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 12,
+         "first_name": "Макар",
+         "last_name": "Фадеева",
+         "fathers_name": "Матвеевич",
+         "date_of_birth": "1972",
+         "role": {
+            "name": "default",
+            "permissions": {
+               "Credit": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               },
+               "Organisation": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "Person": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 13,
+         "first_name": "Тест",
+         "last_name": "Тест",
+         "fathers_name": "Тест",
+         "date_of_birth": "1988",
+         "role": {
+            "name": "default",
+            "permissions": {
+               "Credit": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               },
+               "Organisation": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "Person": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               }
+            }
+         }
+      }
+   ],
+   "Organisations": [
+      {
+         "client_id": 14,
+         "creation_date": "30.03.2015",
+         "unp": "192450161",
+         "name": "ZrobimDom",
+         "role": {
+            "name": "credit_and_deposit_users",
+            "permissions": {
+               "Credit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      },
+      {
+         "client_id": 13,
+         "creation_date": "14.03.2012",
+         "unp": "191699570",
+         "name": "Territoria",
+         "role": {
+            "name": "default",
+            "permissions": {
+               "Credit": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "CreditAccount": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Deposit": {
+                  "create": true,
+                  "read": true,
+                  "update": false,
+                  "delete": false
+               },
+               "Identity": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               },
+               "Organisation": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               },
+               "Person": {
+                  "create": false,
+                  "read": false,
+                  "update": false,
+                  "delete": false
+               }
+            }
+         }
+      }
+   ],
+   "Apps": [
+      {
+         "client_id": -1,
+         "name": "authn",
+         "role": {
+            "name": "authn",
+            "permissions": {
+               "Identity": {
+                  "create": true,
+                  "read": true,
+                  "update": true,
+                  "delete": true
+               },
+               "Organisation": {
+                  "create": true,
+                  "read": true,
+                  "update": true,
+                  "delete": true
+               },
+               "Person": {
+                  "create": true,
+                  "read": true,
+                  "update": true,
+                  "delete": true
+               }
+            }
+         }
+      },
+      {
+         "client_id": -2,
+         "name": "bank",
+         "role": {
+            "name": "bank",
+            "permissions": {
+               "CreditAccount": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               },
+               "DebitAccount": {
+                  "create": false,
+                  "read": true,
+                  "update": true,
+                  "delete": false
+               }
+            }
+         }
+      }
+   ]
+}
