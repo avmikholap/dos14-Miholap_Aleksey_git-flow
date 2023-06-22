@@ -62,14 +62,14 @@ class Role:
         return {"name": self.name, "permissions": permissions}
 
 
-class Entity:
-    def __init__(self, entity_id, role):
-        self._entity_id = entity_id
+class Client:
+    def __init__(self, client_id, role):
+        self._client_id = client_id
         self._role = role
 
     @property
-    def entity_id(self):
-        return self._entity_id
+    def client_id(self):
+        return self._client_id
 
     @property
     def role(self):
@@ -80,17 +80,17 @@ class Entity:
         self._role = role
 
 
-class User(Entity):
+class User(Client):
     def __init__(
         self,
-        entity_id,
+        client_id,
         first_name,
         last_name,
         fathers_name,
         date_of_birth,
         role,
     ):
-        super().__init__(entity_id, role)
+        super().__init__(client_id, role)
         self._first_name = first_name
         self._last_name = last_name
         self._fathers_name = fathers_name
@@ -120,7 +120,7 @@ class User(Entity):
     @property
     def get_obj(self):
         return {
-            "entity_id": self._entity_id,
+            "client_id": self._client_id,
             "first_name": self._first_name,
             "last_name": self._last_name,
             "fathers_name": self._fathers_name,
@@ -129,9 +129,9 @@ class User(Entity):
         }
 
 
-class Organisation(Entity):
-    def __init__(self, entity_id, creation_date, unp, name, role):
-        super().__init__(entity_id, role)
+class Organisation(Client):
+    def __init__(self, client_id, creation_date, unp, name, role):
+        super().__init__(client_id, role)
         self._creation_date = creation_date
         self._unp = unp
         self._name = name
@@ -151,7 +151,7 @@ class Organisation(Entity):
     @property
     def get_obj(self):
         return {
-            "entity_id": self._entity_id,
+            "client_id": self._client_id,
             "role": self._role.get_obj,
             "creation_date": self._creation_date,
             "unp": self._unp,
@@ -159,9 +159,9 @@ class Organisation(Entity):
         }
 
 
-class App(Entity):
-    def __init__(self, entity_id, name, role):
-        super().__init__(entity_id, role)
+class App(Client):
+    def __init__(self, client_id, name, role):
+        super().__init__(client_id, role)
         self._name = name
 
     @property
@@ -171,7 +171,7 @@ class App(Entity):
     @property
     def get_obj(self):
         return {
-            "entity_id": self._entity_id,
+            "client_id": self._client_id,
             "role": self._role.get_obj,
             "name": self._name,
         }
@@ -232,12 +232,12 @@ def user_add(first_name, last_name, fathers_name, date_of_birth):
     if not all([first_name, last_name, fathers_name, date_of_birth]):
         print("Ошибка: не все данные введены")
         return None
-    users_sorted = sorted(users, key=lambda x: x.entity_id, reverse=True)
-    last_id = users_sorted[0].entity_id if users_sorted else 0
-    entity_id = last_id + 1
+    users_sorted = sorted(users, key=lambda x: x.client_id, reverse=True)
+    last_id = users_sorted[0].client_id if users_sorted else 0
+    client_id = last_id + 1
     role = default_role
     user = User(
-        entity_id=entity_id,
+        client_id=client_id,
         first_name=first_name,
         last_name=last_name,
         fathers_name=fathers_name,
@@ -272,7 +272,7 @@ for obj in users + organization + apps:
     permissions = {k: v.get_obj for k, v in obj.role.role.items()}
     permissions_dict = {}
     if isinstance(obj, User):
-        d["entity_id"] = obj.entity_id
+        d["client_id"] = obj.client_id
         d["first_name"] = obj.first_name
         d["last_name"] = obj.last_name
         d["fathers_name"] = obj.fathers_name
@@ -280,14 +280,14 @@ for obj in users + organization + apps:
         data["Users"].append(d)
 
     elif isinstance(obj, Organisation):
-        d["entity_id"] = obj.entity_id
+        d["client_id"] = obj.client_id
         d["creation_date"] = obj.creation_date
         d["unp"] = obj.unp
         d["name"] = obj.name
         data["Organisations"].append(d)
 
     elif isinstance(obj, App):
-        d["entity_id"] = obj.entity_id
+        d["client_id"] = obj.client_id
         d["name"] = obj.name
         data["Apps"].append(d)
 
