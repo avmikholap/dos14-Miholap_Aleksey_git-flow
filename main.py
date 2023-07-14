@@ -1,7 +1,23 @@
 import json
 import yaml
-from datetime import date
+from datetime import datetime, date
+from flask import Flask, request, jsonify
 
+app = Flask(__name__)
+
+roles = {}
+users = []
+organisations = []
+apps = []
+
+class AuthorizationError(BaseException):
+    pass
+
+class PermissionError(AuthorizationError):
+    pass
+
+class ClientNotFoundError(AuthorizationError):
+    pass
 
 class Permissions:
     def __init__(self, create=False, read=False, update=False, delete=False):
@@ -9,88 +25,69 @@ class Permissions:
         self._read = read
         self._update = update
         self._delete = delete
-
     @property
     def create(self):
         return self._create
-
     @property
     def read(self):
         return self._read
-
     @property
     def update(self):
         return self._update
-
     @property
     def delete(self):
         return self._delete
-
     @property
     def get_obj(self):
         return {
-            "create": self._create,
-            "read": self._read,
-            "update": self._update,
-            "delete": self._delete,
+            'create': self._create,
+            'read': self._read,
+            'update': self._update,
+            'delete': self._delete,
         }
 
-
 class Role:
-    def __init__(self, name, **kwargs):
+    def __init__(self, name, permissions_dict):
         self._name = name
         self._role = {}
-        for key, value in kwargs.items():
+        for key, value in permissions_dict.items():
             self._role[key] = Permissions(**value)
 
     @property
     def name(self):
         return self._name
 
-    @property
-    def role(self):
-        return self._role
+    def __contains__(self, key):
+        return key in self._role
 
     def __getitem__(self, key):
         return self._role[key]
-
     @property
     def get_obj(self):
         permissions = {}
-        for key, value in self.role.items():
-            permissions[key] = value.get_obj()
-        return {"name": self.name, "permissions": permissions}
+        for key, value in self._role.items():
+            permissions[key] = value.get_obj
+        return {
+            'name': self._name,
+            'permissions': permissions
+        }
 
-
-class Entity:
-    def __init__(self, entity_id, role):
-        self._entity_id = entity_id
+class Client:
+    def __init__(self, client_id, role):
+        self._client_id = client_id
         self._role = role
 
     @property
-    def entity_id(self):
-        return self._entity_id
-
+    def client_id(self):
+        return self._client_id
     @property
     def role(self):
         return self._role
 
-    @role.setter
-    def role(self, role):
-        self._role = role
 
-
-class User(Entity):
-    def __init__(
-        self,
-        entity_id,
-        first_name,
-        last_name,
-        fathers_name,
-        date_of_birth,
-        role,
-    ):
-        super().__init__(entity_id, role)
+class User(Client):
+    def __init__(self, client_id, role, first_name, last_name, fathers_name, date_of_birth):
+        super().__init__(client_id, role)
         self._first_name = first_name
         self._last_name = last_name
         self._fathers_name = fathers_name
@@ -99,203 +96,258 @@ class User(Entity):
     @property
     def first_name(self):
         return self._first_name
-
     @property
     def last_name(self):
         return self._last_name
-
     @property
     def fathers_name(self):
         return self._fathers_name
-
     @property
     def date_of_birth(self):
         return self._date_of_birth
-
     @property
     def age(self):
         today = date.today()
         return today.year - self._date_of_birth.year
-
     @property
     def get_obj(self):
         return {
-            "entity_id": self._entity_id,
-            "first_name": self._first_name,
-            "last_name": self._last_name,
-            "fathers_name": self._fathers_name,
-            "date_of_birth": self._date_of_birth,
-            "role": self._role.get_obj,
+            'client_id': self._client_id,
+            'role': self._role.get_obj,
+            'first_name': self._first_name,
+            'last_name': self._last_name,
+            'fathers_name': self._fathers_name,
+            'date_of_birth': self._date_of_birth,
         }
 
-
-class Organisation(Entity):
-    def __init__(self, entity_id, creation_date, unp, name, role):
-        super().__init__(entity_id, role)
+class Organisation(Client):
+    def __init__(self, client_id, role, creation_date, unp, name):
+        super().__init__(client_id, role)
         self._creation_date = creation_date
         self._unp = unp
         self._name = name
-
     @property
     def creation_date(self):
         return self._creation_date
-
     @property
     def unp(self):
         return self._unp
-
     @property
     def name(self):
         return self._name
-
     @property
     def get_obj(self):
         return {
-            "entity_id": self._entity_id,
-            "role": self._role.get_obj,
-            "creation_date": self._creation_date,
-            "unp": self._unp,
-            "name": self._name,
+            'client_id': self._client_id,
+            'role': self._role.get_obj,
+            'creation_date': self._creation_date,
+            'unp': self._unp,
+            'name': self._name,
         }
 
-
-class App(Entity):
-    def __init__(self, entity_id, name, role):
-        super().__init__(entity_id, role)
+class App(Client):
+    def __init__(self, client_id, role, name):
+        super().__init__(client_id, role)
         self._name = name
 
     @property
     def name(self):
         return self._name
 
-    @property
-    def get_obj(self):
-        return {
-            "entity_id": self._entity_id,
-            "role": self._role.get_obj,
-            "name": self._name,
-        }
+# Функция add_users использует модуль json для записи данных в файл
+def write_data(users, organisations):
+    data_to_save = {
+        'users': [],
+        'organisations': [],
+    }
+    for user in users:
+        data_to_save['users'].append(user.get_obj)
+    for organisation in organisations:
+        data_to_save['organisations'].append(organisation.get_obj)
+    with open("all_users.json", "w") as file:
+        json.dump(data_to_save, file, ensure_ascii=False)
 
+def get_client_by_id(client_id, clients):
+    for client in clients:
+        if client.client_id == client_id:
+            return client
+    raise ClientNotFoundError(f"No Client found with client_id = {client_id}")
 
-# функция для загрузки  список ролей (roles) из файла 'roles.yaml'.
-def load_roles():
-    with open("roles.yaml", "r", encoding="utf8") as f:
-        data = yaml.safe_load(f)
-    return data
+def get_client_id_from_header(header_name, headers):
+    if header_name not in headers:
+        raise ValueError(f"{header_name} header not found")
 
+    header = headers.get(header_name)
+    header = json.loads(header)
+    
+    if 'client_id' not in header:
+        raise ValueError(f"{header_name} header doesnt have client_id attribute")
 
-# функция для загрузки список пользователей (users) из файла 'users.json'.
-def load_users():
-    with open("users.json", "r", encoding="utf8") as f:
-        data = json.load(f)
-    users = []
-    for user_data in data["Users"]:
-        role_name = user_data.pop("role")
-        role_data = roles[role_name]
-        role = Role(role_name, **role_data)
-        user = User(role=role, **user_data)
-        users.append(user)
-    return users
+    return  header['client_id']
 
+def next_client_id(clients):
+    sorted_clients = sorted(clients, key=lambda x: x.client_id, reverse=True)
+    return sorted_clients[0].client_id + 1
 
-# функция для загрузки список организаций (organizations) из файла 'users.json'
-def load_organization():
-    with open("users.json", "r", encoding="utf8") as f:
-        data = json.load(f)
-    organizations = []
-    for organization_data in data["Organisations"]:
-        role_name = organization_data.pop("role")
-        role_data = roles[role_name]
-        role = Role(role_name, **role_data)
-        organization = Organisation(role=role, **organization_data)
-        organizations.append(organization)
-    return organizations
+def check_permission(client, subject, permission):
+    if subject not in client.role:
+        raise PermissionError(f"Client with id {client.client_id} does not have {subject} subject in role {client.role.name}")
+    if not hasattr(client.role[subject], permission):
+        raise PermissionError(f"Client role {client.role.name} does not have such permission - {permission}")
+    if not getattr(client.role[subject], permission):
+        raise PermissionError(f"Client with id {client.client_id} does not have {subject}.{permission} permission")
 
+    return True
 
-# функция для загрузки список приложений (apps) из файла 'app.yaml'
-def load_apps():
-    with open("app.yaml", "r", encoding="utf8") as f:
-        data = yaml.safe_load(f)
-    apps = []
-    for app_data in data["Apps"]:
-        role_name = app_data.pop("role")
-        role_data = roles[role_name]
-        role = Role(role_name, **role_data)
-        app = App(role=role, **app_data)
-        apps.append(app)
-    return apps
+with open('roles.yaml', 'r') as f:
+    roles_data = yaml.safe_load(f)
+    for roleK, roleV in roles_data.items():
+        roles[roleK] = Role(roleK, roleV)
 
+with open('users.json', 'r') as f:
+    json_data = json.load(f)
+    users_data = json_data['Users']
+    for user in users_data:
+        user['date_of_birth'] = int(user['date_of_birth'])
+        user['role'] = roles[user['role']]
+        users.append(User(**user))
 
-# функция добавления нового пользователя
-def user_add(first_name, last_name, fathers_name, date_of_birth):
-    # Проверка наличия всех данных
-    if not all([first_name, last_name, fathers_name, date_of_birth]):
-        print("Ошибка: не все данные введены")
-        return None
-    users_sorted = sorted(users, key=lambda x: x.entity_id, reverse=True)
-    last_id = users_sorted[0].entity_id if users_sorted else 0
-    entity_id = last_id + 1
-    role = default_role
-    user = User(
-        entity_id=entity_id,
-        first_name=first_name,
-        last_name=last_name,
-        fathers_name=fathers_name,
-        date_of_birth=date_of_birth,
-        role=role,
-    )
-    users.append(user)
-    print("Пользователь успешно добавлен")
-    return user
+    organisations_data = json_data['Organisations']
+    for organisation in organisations_data:
+        organisation['role'] = roles[organisation['role']]
+        organisations.append(Organisation(**organisation))
 
+with open('app.yaml', 'r') as f:
+    apps_data = yaml.safe_load(f)['Apps']
+    for a in apps_data:
+        a['role'] = roles[a['role']]
+        apps.append(App(**a))
 
-# Загрузка данных из файлов
-roles = load_roles()
-default_role_data = roles["default"]
-default_role = Role("default", **default_role_data)
-users = load_users()
-organization = load_organization()
-apps = load_apps()
+clients=(apps + users + organisations)
 
-# new_user = user_add("Алексей", "Михолап", "Владимирович", "1995")
-new_user = user_add(
-    first_name=input("first_name:"),
-    last_name=input("last_name:"),
-    fathers_name=input("fathers_name:"),
-    date_of_birth=input("date_of_birth:"),
-)
+@app.route('/api/v1/users/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    try:
+        client_id = get_client_id_from_header('token', request.headers)
+        client = get_client_by_id(client_id, clients)
+        user = get_client_by_id(user_id, users)
+        if not client:
+            raise ClientNotFoundError(f"No client with ID {client_id}")
+        check_permission(client,"users","read")
+        return json.dumps(user.get_obj, ensure_ascii=False)
+    except AuthorizationError as e:
+        return jsonify({"status": "error", "message": str(e)}), 403
+    except ValueError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
+        
+@app.route('/api/v1/organisations/<int:org_id>', methods=['GET'])
+def get_organisation(org_id):
+    try:
+        client_id = get_client_id_from_header('token', request.headers)
+        client = get_client_by_id(client_id, clients)
+        org = get_client_by_id(org_id, organisations)
+        if not client:
+            raise ClientNotFoundError(f"No client with ID {client_id}")
+        check_permission(client,"organisations","read")
+        return json.dumps(org.get_obj, ensure_ascii=False)
+    except AuthorizationError as e:
+        return jsonify({"status": "error", "message": str(e)}), 403
+    except ValueError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
 
-data = {"Users": [], "Organisations": [], "Apps": []}
-for obj in users + organization + apps:
-    d = {}
-    role_name = obj.role.name
-    permissions = {k: v.get_obj for k, v in obj.role.role.items()}
-    permissions_dict = {}
-    if isinstance(obj, User):
-        d["entity_id"] = obj.entity_id
-        d["first_name"] = obj.first_name
-        d["last_name"] = obj.last_name
-        d["fathers_name"] = obj.fathers_name
-        d["date_of_birth"] = obj.date_of_birth
-        data["Users"].append(d)
+@app.route('/api/v1/users', methods=['GET'])
+def get_users():
+    try:
+        client_id = get_client_id_from_header('token', request.headers)
+        client = get_client_by_id(client_id, clients)
+        user_list = [ u.get_obj for u in users]
+        if not client:
+            raise ClientNotFoundError(f"No client with ID {client_id}")
+        check_permission(client,"users","read")
+        return json.dumps(user_list, ensure_ascii=False)
+    except AuthorizationError as e:
+        return jsonify({"status": "error", "message": str(e)}), 403
+    except ValueError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
 
-    elif isinstance(obj, Organisation):
-        d["entity_id"] = obj.entity_id
-        d["creation_date"] = obj.creation_date
-        d["unp"] = obj.unp
-        d["name"] = obj.name
-        data["Organisations"].append(d)
+@app.route('/api/v1/organisations', methods=['GET'])
+def get_organisations():
+    try:
+        client_id = get_client_id_from_header('token', request.headers)
+        client = get_client_by_id(client_id, clients)
+        org_list = [o.get_obj for o in organisations]
+        if not client:
+            raise ClientNotFoundError(f"No client with ID {client_id}")
+        check_permission(client,"organisations","read")
+        return json.dumps(org_list, ensure_ascii=False)
+    except AuthorizationError as e:
+        return jsonify({"status": "error", "message": str(e)}), 403
+    except ValueError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
 
-    elif isinstance(obj, App):
-        d["entity_id"] = obj.entity_id
-        d["name"] = obj.name
-        data["Apps"].append(d)
+@app.route('/api/v1/users', methods=['PUT'])
+def create_user():
+    try:
+        client_id = get_client_id_from_header('token', request.headers)
+        client = get_client_by_id(client_id, clients)
+        if not client:
+            raise ClientNotFoundError(f"No client with ID {client_id}")
 
-    for k, v in permissions.items():
-        permissions_dict[k] = v
+        check_permission(client,"users","create")
+        data = request.get_json()
+        if not data or not all(key in data for key in ['role', 'first_name', 'fathers_name', 'date_of_birth', 'last_name']):
+            raise ValueError(f"Invalid organization data provided")
+        if data['role'] not in roles:
+            raise ValueError(f"Invalid role name provided")
+        data['client_id'] = next_client_id(clients)
+        data['role'] = roles[data['role']]
+        users.append(User(**data))
+        write_data(users, organisations)
 
-    role_data = {"name": role_name, "permissions": permissions_dict}
-    d["role"] = role_data
+        return jsonify({'status': 'success', 'message': 'User created successfully'}), 201
+    except AuthorizationError as e:
+        return jsonify({"status": "error", "message": str(e)}), 403
+    except ValueError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
 
-with open("all_users.json", "w", encoding="utf8") as f:
-    json.dump(data, f, ensure_ascii=False, indent=3)
+@app.route('/api/v1/organisations', methods=['PUT'])
+def create_organisation():
+    try:
+        client_id = get_client_id_from_header('token', request.headers)
+        client = get_client_by_id(client_id, clients)
+        if not client:
+            raise ClientNotFoundError(f"No client with ID {client_id}")
+
+        check_permission(client,"organisations","create")
+        data = request.get_json()
+        if not data or not all(key in data for key in ['role', 'creation_date', 'unp', 'name']):
+            raise ValueError(f"Invalid organization data provided")
+        if data['role'] not in roles:
+            raise ValueError(f"Invalid role name provided")
+        data['role'] = roles[data['role']]
+        data['client_id'] = next_client_id(clients)
+        organisations.append(Organisation(**data))
+        write_data(users, organisations)
+        return jsonify({"status": "success", "message": "Organization created successfully"}), 200
+    except AuthorizationError as e:
+        return jsonify({"status": "error", "message": str(e)}), 403
+    except ValueError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
+
+@app.route('/api/v1/<string:subject>/authz/<string:permission>', methods=['GET'])
+def check_authorization(subject, permission):
+    try:
+        client_id = get_client_id_from_header('token', request.headers)
+        client = get_client_by_id(client_id, clients)
+        if not client:
+            raise ClientNotFoundError(f"No client with ID {client_id}")
+
+        check_permission(client,subject,permission)
+        return {"status": "success", "message": "Authorized"}, 200
+    except AuthorizationError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
+    except ValueError as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0")
