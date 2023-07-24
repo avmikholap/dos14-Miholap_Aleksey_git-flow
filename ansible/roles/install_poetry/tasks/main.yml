@@ -1,0 +1,24 @@
+- name: Install poetry
+  pip:
+    name: poetry
+    state: present
+    virtualenv: /home/authz/venv
+  become: true
+
+- name: Activate virtual environment and poetry install
+  shell: |
+    source /home/authz/venv/bin/activate &&
+    cd /home/authz/git &&
+    poetry install
+  args:
+    executable: /bin/bash
+  become: true
+
+- name: poetry update
+  shell: |
+    source /home/authz/venv/bin/activate &&
+    cd /home/authz/git &&
+    poetry update
+  args:
+    executable: /bin/bash
+  become: true

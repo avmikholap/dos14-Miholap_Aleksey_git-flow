@@ -1,0 +1,23 @@
+- name: Copy service unit file
+  copy:
+    src: templates/autzh_flask.service.j2
+    dest: /etc/systemd/system/autzh_flask.service
+    owner: authz
+    group: authz
+    mode: '640'
+  become: true
+  notify: Restart Flask service
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+    state: restarted
+    name: autzh_flask.service
+    enabled: yes
+  become: true
+
+- name: Start the Flask service
+  systemd:
+    name: autzh_flask.service
+    state: started
+  become: true

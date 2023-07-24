@@ -1,0 +1,6 @@
+---
+- name: Restart Flask service
+  systemd:
+    name: autzh_flask.service
+    state: restarted
+  become: true

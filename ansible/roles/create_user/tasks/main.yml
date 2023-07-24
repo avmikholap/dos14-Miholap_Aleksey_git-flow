@@ -1,0 +1,33 @@
+---
+- name: Include encrypted variables
+  include_vars:
+    file: vars/vault.yml
+
+- name: Create user authz group
+  group:
+    name: authz
+    state: present
+  become: true
+  become_user: root
+
+- name: Create user authz
+  user:
+    name: authz
+    password: "{{ authz_password }}"
+    groups: authz,root,sudo
+    home: /home/authz
+    shell: /bin/bash
+    state: present
+  become: true
+  become_user: root
+
+- name: Change directory ownership
+  file:
+    path: /home/authz
+    owner: authz
+    group: authz
+    mode: '750'
+    state: directory
+    recurse: yes
+  become: true
+  become_user: root

@@ -1,0 +1,22 @@
+
+- name: Add safe.directory to git config
+  become: true
+  command: git config --global --add safe.directory /home/authz/git
+
+- name: Clone repo git
+  become: true
+  git:
+    repo: https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git
+    dest: /home/authz/git
+    version: master
+    force: yes
+
+- name: owner change
+  become: true
+  file:
+    path: /home/authz/git
+    state: directory
+    owner: authz
+    group: authz
+    mode: "750"
+    recurse: yes
