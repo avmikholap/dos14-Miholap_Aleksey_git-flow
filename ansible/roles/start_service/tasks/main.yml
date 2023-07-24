@@ -2,6 +2,7 @@
   copy:
     src: /home/authz/git/ansible/roles/start_service/templates/authz_flask.service.j2
     dest: /etc/systemd/system/autzh_flask.service
+    remote_src: true
     owner: authz
     group: authz
     mode: '640'
