@@ -1,0 +1,13 @@
+[Unit]
+Description=Flask Service
+After=network.target
+
+[Service]
+User=authz
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=/home/authz/git/
+ExecStart=/bin/bash -c "source /home/authz/venv/bin/activate && poetry run flask --app main.py run"
+
+[Install]
+WantedBy=multi-user.target

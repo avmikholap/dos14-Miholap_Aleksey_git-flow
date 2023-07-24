@@ -1,0 +1,41 @@
+---
+- name: Install Git
+  become: true
+
+  block:
+    - name: Create directory /home/authz/tmp
+      file:
+        path: /home/authz/tmp
+        state: directory
+
+    - name: Update apt-cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages for compiling Git
+      apt:
+        name:
+          - libz-dev
+          - libssl-dev
+          - libcurl4-gnutls-dev
+          - libexpat1-dev
+          - gcc
+          - gettext
+          - cmake
+        state: present
+
+    - name: Download Git 2.40.1 
+      unarchive:
+        src: https://github.com/git/git/archive/v2.40.1.tar.gz
+        dest: /home/authz/tmp
+        remote_src: true
+
+    - name: Install Git 2.40.1 
+      shell: |
+        cd /home/authz/tmp/git-2.40.1
+        make prefix=/home/authz/usr/local all
+        make prefix=/home/authz/usr/local install
+      args:
+        executable: /bin/bash
+

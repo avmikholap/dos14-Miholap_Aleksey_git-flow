@@ -1,0 +1,23 @@
+- name: Installing the python3.11-venv package
+  become: true
+
+  block:
+    - name: python3.11-venv package
+      apt:
+        name: python3.11-venv
+        state: present
+      
+    - name: Creating a virtual environment
+      command: python3.11 -m venv /home/authz/venv
+      args:
+        chdir: /home/authz/
+
+    - name: Change ownership of the virtual environment directory
+      file:
+        path: /home/authz/venv
+        owner: authz
+        group: authz
+        mode: "0750"
+        recurse: yes
+      
+   
