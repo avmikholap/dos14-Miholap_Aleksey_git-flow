@@ -25,11 +25,17 @@
           - cmake
         state: present
 
+    - name: Check Git
+      stat:
+        path: /home/authz/usr/local/bin/git
+      register: git_download
+
     - name: Download Git 2.40.1 
       unarchive:
         src: https://github.com/git/git/archive/v2.40.1.tar.gz
         dest: /home/authz/tmp
         remote_src: true
+      when: not git_download.stat.exists
 
     - name: Install Git 2.40.1 
       shell: |
@@ -38,4 +44,4 @@
         make prefix=/home/authz/usr/local install
       args:
         executable: /bin/bash
-
+      when: not git_download.stat.exists
