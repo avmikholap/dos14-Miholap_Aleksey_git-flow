@@ -1,0 +1,28 @@
+---
+- name: Create user authz group
+  group:
+    name: authz
+    state: present
+  become: true
+  become_user: root
+
+- name: Create user authz
+  user:
+    name: authz
+    groups: authz,root
+    home: /home/authz
+    shell: /bin/bash
+    state: present
+  become: true
+  become_user: root
+
+- name: Change directory ownership
+  file:
+    path: /home/authz
+    owner: authz
+    group: authz
+    mode: '750'
+    state: directory
+    recurse: yes
+  become: true
+  become_user: root

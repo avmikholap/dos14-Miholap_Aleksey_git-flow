@@ -1,0 +1,24 @@
+- name: Copy service unit file
+  copy:
+    src: /home/authz/git/ansible/roles/start_service/templates/authz_flask.service.j2
+    dest: /etc/systemd/system/autzh_flask.service
+    remote_src: true
+    owner: authz
+    group: authz
+    mode: '640'
+  become: true
+  notify: Restart Flask service
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+    state: restarted
+    name: autzh_flask.service
+    enabled: yes
+  become: true
+
+- name: Start the Flask service
+  systemd:
+    name: autzh_flask.service
+    state: started
+  become: true
