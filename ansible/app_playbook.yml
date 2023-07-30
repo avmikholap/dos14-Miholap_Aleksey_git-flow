@@ -2,8 +2,7 @@
   roles:
     - create_user
     - install_git
-    - install_python
-    - clone_repo
-    - install_poetry
-    - start_service
     - install_docker
+    - clone_repo
+    - start_service
+
