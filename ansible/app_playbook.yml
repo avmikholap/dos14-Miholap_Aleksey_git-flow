@@ -1,8 +1,8 @@
 - hosts: all
   roles:
+    - install_docker
     - create_user
     - install_git
-    - install_docker
     - clone_repo
     - start_service
 
