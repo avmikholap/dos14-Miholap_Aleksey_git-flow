@@ -9,7 +9,7 @@
 - name: Create user authz
   user:
     name: authz
-    groups: authz,root
+    groups: authz,root, docker
     home: /home/authz
     shell: /bin/bash
     state: present
