@@ -10,7 +10,7 @@ services:
     container_name: nginx
     build:
       context: .
-      dockerfile: dockerfile-nginx
+      dockerfile: Dockerfile-nginx
     ports:
       - "80:80"
     restart: always
