@@ -1,0 +1,5 @@
+FROM nginx:latest
+
+COPY ./nginx/authz.conf /etc/nginx/conf.d
+
+COPY ./nginx/nginx.conf /etc/nginx

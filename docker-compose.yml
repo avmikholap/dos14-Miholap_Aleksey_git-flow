@@ -5,3 +5,16 @@ services:
     image: mikholap/app_authz:v.0.0.2
     ports:
       - "80:5000"
+
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: dockerfile-nginx
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+      - authz_service
+    volumes:
+      - ./nginx/logs:/var/log/nginx
