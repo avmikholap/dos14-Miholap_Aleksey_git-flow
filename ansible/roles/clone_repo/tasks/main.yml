@@ -8,7 +8,7 @@
   git:
     repo: https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git
     dest: /home/authz/git
-    version: feature-hw-25
+    version: feature-hw-26
     force: yes
 
 - name: owner change
