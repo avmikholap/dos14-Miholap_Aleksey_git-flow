@@ -225,6 +225,10 @@ with open('app.yaml', 'r') as f:
 
 clients=(apps + users + organisations)
 
+@app.route('/api/v1/authz/health_check', methods=['GET'])
+def health_check():
+    return jsonify({"status": "ok", "message": "health_check works"}), 200
+
 @app.route('/api/v1/users/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     try:
