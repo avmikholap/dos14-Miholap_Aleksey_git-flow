@@ -1,6 +1,8 @@
 
 - name: Add safe.directory to git config
   become: true
+  environment:
+    HOME: "/home/authz"
   command: git config --global --add safe.directory /home/authz/git
 
 - name: Clone repo git
