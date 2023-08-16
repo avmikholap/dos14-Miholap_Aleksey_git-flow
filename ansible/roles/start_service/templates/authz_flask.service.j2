@@ -7,8 +7,7 @@ User=authz
 Restart=on-failure
 RestartSec=5
 WorkingDirectory=/home/authz/git/
-ExecStart=/bin/bash -c "docker-compose up"
-ExecStart=/bin/bash -c "docker-compose down"
+ExecStart=/bin/bash -c "docker-compose up && docker-compose down"
 
 [Install]
 WantedBy=multi-user.target
