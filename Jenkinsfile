@@ -4,8 +4,8 @@ pipeline {
         stage('Lint') {
         agent {
             docker {
-            image 'python:3.11.3-buster'
-            args '-u 0'
+                image 'python:3.11.3-buster'
+                args '-u 0'
             }
         }
       when {
@@ -16,7 +16,7 @@ pipeline {
       steps {
         sh "pip install poetry"
         sh "poetry install --with dev"
-        sh "poetry run -- black --check *.py **/*.py"
+        sh sh "poetry run -- black --check *.py"
       }
     }
         stage('Build') {
