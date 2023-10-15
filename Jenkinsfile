@@ -16,7 +16,7 @@ pipeline {
       steps {
         sh "pip install poetry"
         sh "poetry install --with dev"
-        sh sh "poetry run -- black --check *.py"
+        sh "poetry run -- black --check *.py"
       }
     }
         stage('Build') {
