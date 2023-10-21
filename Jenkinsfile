@@ -28,9 +28,9 @@ pipeline {
         }
         steps {
           script {
-            def image = docker.build "mikholap/dos14_authz:${env.GIT_COMMIT}"
+            def image = docker.build "mikholap/app_authz:${env.GIT_COMMIT}"
             docker.withRegistry('','dockerhub-mikholap') {
-              image.push()
+              image.push('latest')
           }
         }
       }
