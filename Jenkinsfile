@@ -26,7 +26,6 @@ pipeline {
             branch pattern: "master"
           }
         }
-      }
         steps {
           script {
             def image = docker.build "mikholap/app_authz:${env.GIT_COMMIT}"
