@@ -24,13 +24,14 @@ pipeline {
         when {
           anyOf {
             branch pattern: "master"
+            branch pattern: "feature-*"
           }
         }
         steps {
           script {
             def image = docker.build "mikholap/app_authz:${env.GIT_COMMIT}"
             docker.withRegistry('','dockerhub-mikholap') {
-              image.push('latest')
+              image.push()
           }
         }
       }
