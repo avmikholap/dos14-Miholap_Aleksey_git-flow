@@ -2,7 +2,7 @@ version: '3.4'
 services:
   authz:
     container_name: app_authz
-    image: mikholap/app_authz:v.0.0.3
+    image: mikholap/app_authz:latest
     ports:
       - "5000:5000"
 
