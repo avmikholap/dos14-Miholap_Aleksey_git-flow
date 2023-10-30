@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-{{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: {{ .Values.annotations.useregex }}
+    nginx.ingress.kubernetes.io/rewrite-target: {{ .Values.annotations.rewritetarget }}
+spec:
+  ingressClassName: {{ .Values.ingressClassName }}
+  rules:
+  - host: {{ .Values.host.name }}.{{ .Values.host.domain }}
+    http:
+      paths:
+      - path: /authz(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: {{ .Values.name }}-svc
+            port:
+              number: {{ .Values.port.number }}

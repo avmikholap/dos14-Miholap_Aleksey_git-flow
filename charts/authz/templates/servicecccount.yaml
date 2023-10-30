@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.name }}-serviceaccount
+  labels:
+    bank: {{ .Values.labels.bank }}
+    env: {{ .Values.labels.env }}

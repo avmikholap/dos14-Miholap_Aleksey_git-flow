@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.labels.app }}
+    bank: {{ .Values.labels.bank }}
+    env: {{ .Values.labels.env }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.labels.app }}
+      bank: {{ .Values.labels.bank }}
+      env: {{ .Values.labels.env }}
+  strategy:
+    type: {{ .Values.strategy.type }}
+    rollingUpdate:
+      maxSurge: {{ .Values.rollingUpdate.maxSurge }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.labels.app }}
+        bank: {{ .Values.labels.bank }}
+        env: {{ .Values.labels.env }}
+    spec:
+      containers:
+      - name: {{ .Values.containers.name }}
+        image: {{ .Values.containers.image }}
+        ports:
+        - containerPort: {{ .Values.ports.containerPort }}
+          name: {{ .Values.ports.name }}
+          protocol: {{ .Values.ports.protocol }}
+        volumeMounts:
+          - name: {{ .Values.volumeMounts.name }}
+            mountPath: {{ .Values.volumeMounts.mountPath }}
+      - name: {{ .Values.name }}
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+      volumes:
+      - configMap:
+          name: {{ .Values.name }}-nginx-config
+        name: nginx-config
