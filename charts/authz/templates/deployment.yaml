@@ -25,6 +25,7 @@ spec:
         bank: {{ .Values.labels.bank }}
         env: {{ .Values.labels.env }}
     spec:
+      serviceAccountName: {{ .Values.name }}-serviceaccount
       containers:
       - name: {{ .Values.containers.name }}
         image: {{ .Values.containers.image }}
@@ -36,7 +37,24 @@ spec:
           - name: {{ .Values.volumeMounts.name }}
             mountPath: {{ .Values.volumeMounts.mountPath }}
       - name: {{ .Values.name }}
-        image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        image: {{ .Values.image.name }}:{{ .Values.image.tag | default "latest"}}
+        env:
+            - name: PG_DATABASE
+              value: omegabank
+            - name: PG_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: omega-db-creds
+            - name: PG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: omega-db-creds
+            - name: PG_HOST
+              value: omegabank-rds-tf.cearikylb8tb.eu-west-1.rds.amazonaws.com
+            - name: PG_PORT
+              value: "5432"  
       volumes:
       - configMap:
           name: {{ .Values.name }}-nginx-config
