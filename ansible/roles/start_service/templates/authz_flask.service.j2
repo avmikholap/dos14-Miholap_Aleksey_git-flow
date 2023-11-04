@@ -7,6 +7,7 @@ User=authz
 Restart=on-failure
 RestartSec=5
 WorkingDirectory=/home/authz/git/
+
 ExecStart=/bin/bash -c "docker-compose up"
 ExecStop=/bin/bash -c "docker-compose down"
 
