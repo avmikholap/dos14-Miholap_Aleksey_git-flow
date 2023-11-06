@@ -40,9 +40,5 @@ servicePorts:
   targetPort: 80
 
 #serviceaccount
-serviceAccount:
-  name: authz-service-account
-  automount: true
-  srvctoken: true
-  annotations: {}
+srvctoken: true
   
