@@ -5,5 +5,5 @@ metadata:
   labels:
     bank: {{ .Values.labels.bank }}
     env: {{ .Values.labels.env }}
-  automountServiceAccountToken: {{ .Values.srvctoken }}
+automountServiceAccountToken: {{ .Values.srvctoken }}
  
