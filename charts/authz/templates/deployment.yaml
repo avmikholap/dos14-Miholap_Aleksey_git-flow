@@ -25,7 +25,7 @@ spec:
         bank: {{ .Values.labels.bank }}
         env: {{ .Values.labels.env }}
     spec:
-      serviceAccountName: {{ .Values.name }}-serviceaccount
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
       - name: {{ .Values.containers.name }}
         image: {{ .Values.containers.image }}
