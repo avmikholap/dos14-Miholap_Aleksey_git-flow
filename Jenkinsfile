@@ -24,7 +24,7 @@ pipeline {
         when {
           anyOf {
             branch pattern: "master"
-            branch pattern: "feature-*
+            branch pattern: "feature-*"
           }
         }
         steps {
