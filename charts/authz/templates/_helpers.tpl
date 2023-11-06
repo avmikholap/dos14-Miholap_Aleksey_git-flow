@@ -36,10 +36,10 @@ Common labels
 {{- define "authz.labels" -}}
 helm.sh/chart: {{ include "authz.chart" . }}
 {{ include "authz.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- if .Chart.Version }}
+app.kubernetes.io/version: {{ .Chart.Version | quote }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/managed-by: {{ .Release.Name }}
 {{- end }}
 
 {{/*
