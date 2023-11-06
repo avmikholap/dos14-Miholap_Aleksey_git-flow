@@ -4,6 +4,9 @@ metadata:
   name: authz
   # You'll usually want to add your resources to the argocd namespace.
   namespace: omegabank
+  annotations:
+    agrocd-image-updater.argoproj.io/image-list: mikholap/app_authz:^[0-9a-zA-Z]+$
+    app.kubernetes.io/version: 1.0.0
   # Add this finalizer ONLY if you want these to cascade delete.
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -32,3 +35,6 @@ spec:
       selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
     syncOptions:     # Sync options which modifies sync behavior
     - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+    - Validate=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
