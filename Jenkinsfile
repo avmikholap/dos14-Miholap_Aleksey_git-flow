@@ -32,7 +32,7 @@ pipeline {
             def image = docker.build "mikholap/app_authz:${env.GIT_COMMIT}"
             docker.withRegistry('','dockerhub-mikholap') {
               image.push()
-              image.push('latest')
+            build = "${env.GIT_COMMIT}"
           }
         }
       }
