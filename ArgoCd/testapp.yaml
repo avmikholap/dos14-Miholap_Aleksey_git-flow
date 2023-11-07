@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: authztest
   annotations:
-    argocd-image-updater.argoproj.io/image-list: mikholap/app_authz:5911d9db128df143ced0a6cb24c1edef6934d12a
+    argocd-image-updater.argoproj.io/image-list: mikholap/app_authz:~0
     # argocd-image-updater.argoproj.io/write-back-method: git
   namespace: omegabank
   finalizers:
