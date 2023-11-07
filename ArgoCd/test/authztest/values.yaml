@@ -8,7 +8,7 @@ image:
   repository: mikholap/app_authz
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "71f9dcc21f9174a3f277344b82f4c142237de4cf"
+  tag: "5911d9db128df143ced0a6cb24c1edef6934d12a"
 
 imagePullSecrets: []
 nameOverride: ""
