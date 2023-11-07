@@ -59,7 +59,7 @@ ingress:
       host: api.omega.smodata.net
       http:
         paths:
-            path: /bank(.*)
+            path: /authz(.*)
             pathType: ImplementationSpecific
         port: 80
   tls: []
