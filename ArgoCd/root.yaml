@@ -1,40 +1,33 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: authz
-  # You'll usually want to add your resources to the argocd namespace.
+  name: omegabank-authz
+  # annotations:
+  #   argocd-image-updater.argoproj.io/image-list: mikholap/app_authz:0.0.5
+    # argocd-image-updater.argoproj.io/write-back-method: git
   namespace: omegabank
-  annotations:
-    agrocd-image-updater.argoproj.io/image-list: mikholap/app_authz:^[0-9a-zA-Z]+$
-    app.kubernetes.io/version: 1.0.0
-  # Add this finalizer ONLY if you want these to cascade delete.
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  # The project the application belongs to.
-  project: default
-
-  # Source of the application manifests
+  project: omegabank
   source:
-    repoURL: https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git
+    repoURL: 'https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git'
     targetRevision: feature-CD
     path: charts/authz
-
     helm:
-      releaseName: omegabank-authz
       valueFiles:
-      - /charts/authz/values/aws-prd.yaml
+        - aws-prd.yaml
+      releaseName: omegabankauthz
   destination:
-    server: "https://1D740396F34543A99F12858947ABAD69.gr7.eu-west-1.eks.amazonaws.com"
+    server: 'https://1D740396F34543A99F12858947ABAD69.gr7.eu-west-1.eks.amazonaws.com'
     namespace: omegabank
-
-  # Sync policy
   syncPolicy:
-    automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
-      prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
-      selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
-    syncOptions:     # Sync options which modifies sync behavior
-    - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
-    - Validate=true
-    - PrunePropagationPolicy=foreground
-    - PruneLast=true
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Validate=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+

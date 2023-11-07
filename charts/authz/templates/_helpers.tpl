@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "authz.name" -}}
+{{- define "authztest.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "authz.fullname" -}}
+{{- define "authztest.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,36 +26,36 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "authz.chart" -}}
+{{- define "authztest.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "authz.labels" -}}
-helm.sh/chart: {{ include "authz.chart" . }}
-{{ include "authz.selectorLabels" . }}
-{{- if .Chart.Version }}
-app.kubernetes.io/version: {{ .Chart.Version | quote }}
+{{- define "authztest.labels" -}}
+helm.sh/chart: {{ include "authztest.chart" . }}
+{{ include "authztest.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
 Selector labels
 */}}
-{{- define "authz.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "authz.name" . }}
+{{- define "authztest.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "authztest.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "authz.serviceAccountName" -}}
+{{- define "authztest.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "authz.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "authztest.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

@@ -1,14 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.name }}-svc
+  name: {{ include "authztest.fullname" . }}-svc
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - protocol: {{ .Values.servicePorts.protocol }}
-      port: {{ .Values.servicePorts.port }}
-      targetPort: {{ .Values.servicePorts.targetPort  }}
+    - protocol: {{ .Values.service.protocol }}
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetport }}
   selector:
-    app: {{ .Values.labels.app }}
-    bank: {{ .Values.labels.bank }}
-    env: {{ .Values.labels.env }}
+    {{- include "authztest.labels" . | nindent 4 }}
