@@ -8,7 +8,7 @@ image:
   repository: mikholap/app_authz
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "5911d9db128df143ced0a6cb24c1edef6934d12a"
+  tag: "{{ lookup "env" "GIT_COMMIT" }}"
 
 imagePullSecrets: []
 nameOverride: ""
