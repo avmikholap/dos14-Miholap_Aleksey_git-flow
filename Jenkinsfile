@@ -37,5 +37,31 @@ pipeline {
         }
       }
     }
+    stage('Update Helm Chart') {
+      when { expression { build == "${env.GIT_COMMIT}" } }
+      steps {
+        sh "git checkout feature-CD"
+        sh "git config --global pull.rebase true"
+        sh "git pull origin"
+        script {
+        def filename = 'charts/authz/aws-prd.yaml'
+        def data = readYaml file: filename
+
+        // Change something in the file
+        data.image.tag = "${env.GIT_COMMIT}"
+
+        sh "rm $filename"
+        writeYaml file: filename, data: data
+
+          withCredentials([string(credentialsId: 'mav_github_token', variable: 'SECRET')]) {
+                sh('git config --global user.email "mixxxal1995@gmail.com" && git config --global user.name "Jenkins"')
+                sh('git add .')
+                sh('git commit -m "JENKINS: add image tag in helm chart tag for CD"')
+                sh('git remote set-url origin https://${SECRET}@github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git')
+                sh('git push origin feature-CD')
+          }
+        }
+      }
+    }
   }
 }
