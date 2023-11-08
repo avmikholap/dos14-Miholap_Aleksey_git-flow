@@ -2,7 +2,7 @@ replicaCount: 2
 image:
   repository: mikholap/app_authz
   pullPolicy: IfNotPresent
-  tag: 707a8d394ed9ae38a448ebad070130cedaa8df05
+  tag: e9b7dfe2492db2519e0eee1a32410d7dc4176109
 imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
