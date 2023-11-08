@@ -6,6 +6,7 @@ metadata:
 #    - resources-finalizer.argocd.argoproj.io
 spec:
   project: omegabank
+  orphanedResources: true
   source:
     repoURL: 'https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git'
     targetRevision: feature-CD
