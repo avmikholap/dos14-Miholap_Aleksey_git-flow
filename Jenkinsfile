@@ -21,17 +21,17 @@ pipeline {
         }
       }
       stage('Build') {
-        when {
-          anyOf {
-            branch pattern: "master"
-          }
+      when {
+        anyOf {
+          branch pattern: "master"
         }
-        steps {
-          script {
-            def image = docker.build "mikholap/app_authz:${env.GIT_COMMIT}"
-            docker.withRegistry('','dockerhub-mikholap') {
-              image.push()
-            build = "${env.GIT_COMMIT}"
+      }
+      steps {
+        script {
+          def image = docker.build "mikholap/app_authz:${env.GIT_COMMIT}"
+          docker.withRegistry('','dockerhub-mikholap') {
+            image.push()
+          build = "${env.GIT_COMMIT}"
           }
         }
       }
@@ -52,7 +52,7 @@ pipeline {
         sh "rm $filename"
         writeYaml file: filename, data: data
 
-          withCredentials([string(credentialsId: 'mav_github_token', variable: 'SECRET')]) {
+          withCredentials([string(credentialsId: 'kvs_github_token', variable: 'SECRET')]) {
                 sh('git config --global user.email "mixxxal1995@gmail.com" && git config --global user.name "Jenkins"')
                 sh('git add .')
                 sh('git commit -m "JENKINS: add image tag in helm chart tag for CD"')
