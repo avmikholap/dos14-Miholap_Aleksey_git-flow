@@ -1,12 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: omegabank-authz
-  namespace: omegabank
+  name: omegabank-autz
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+#    - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
+  project: omegabank
   source:
     repoURL: 'https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git'
     targetRevision: feature-CD
@@ -16,7 +15,8 @@ spec:
         - aws-prd.yaml
       releaseName: omegabankauthz
   destination:
-    server: 'https://1D740396F34543A99F12858947ABAD69.gr7.eu-west-1.eks.amazonaws.com'
+    name: in-cluster
+#    server: 'https://1D740396F34543A99F12858947ABAD69.gr7.eu-west-1.eks.amazonaws.com'
     namespace: omegabank
   syncPolicy:
     automated:
@@ -27,4 +27,3 @@ spec:
       - Validate=true
       - PrunePropagationPolicy=foreground
       - PruneLast=true
-

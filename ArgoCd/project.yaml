@@ -1,11 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: omegabank-authz
-  namespace: omegabank
+  name: omegabank
   # Finalizer that ensures that project is not deleted until it is not referenced by any application
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+#    - resources-finalizer.argocd.argoproj.io
 spec:
   # Project description
   description: CD for omegabank apps
