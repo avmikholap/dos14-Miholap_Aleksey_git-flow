@@ -34,6 +34,7 @@ spec:
               mountPath: {{ .Values.volumeMounts.mountPath }}
         - name: {{ include "authztest.fullname" . }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
+          imagePullPolicy: Always
           env:
           - name: PG_DATABASE
             value: omegaauthztest
