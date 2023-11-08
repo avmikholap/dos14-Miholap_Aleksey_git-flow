@@ -1,8 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.name }}-nginx-config
+  name: {{ include "authztest.name" . }}-nginx-config
   namespace: {{ .Release.Namespace }}
+data:
 data:
   nginx.conf: |-
     user nginx;
