@@ -24,7 +24,7 @@ pipeline {
       stage('Build') {
       when {
         anyOf {
-          branch pattern: "feature-CD"
+          branch pattern: "master"
         }
       }
       steps {
@@ -40,7 +40,7 @@ pipeline {
     stage('Update Helm Chart') {
       when {
         expression {
-          build == "${env.GIT_COMMIT}" &&  "${env.BRANCH_NAME}" == "feature-CD"
+          build == "${env.GIT_COMMIT}" &&  "${env.BRANCH_NAME}" == "master"
         }
        }
       steps {
