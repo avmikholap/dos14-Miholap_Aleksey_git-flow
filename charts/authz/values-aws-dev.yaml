@@ -10,7 +10,7 @@ serviceAccount:
   create: true
   automount: true
   annotations: {}
-  name: authztestacc
+  name: authzacc
 podAnnotations: {}
 podLabels: {}
 podSecurityContext: {}
