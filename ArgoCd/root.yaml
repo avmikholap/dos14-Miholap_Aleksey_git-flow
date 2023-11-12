@@ -13,7 +13,7 @@ spec:
     path: charts/authz
     helm:
       valueFiles:
-        - values-aws-dev.yaml
+        - values-aws-prd.yaml
       releaseName: omegabankauthz
   destination:
     name: in-cluster
