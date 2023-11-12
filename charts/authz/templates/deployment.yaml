@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "authztest.fullname" . }}
+  name: {{ include "authz.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "authztest.labels" . | nindent 4 }}
+    {{- include "authz.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "authztest.labels" . | nindent 6 }}
+      {{- include "authz.labels" . | nindent 6 }}
   strategy:
     type: {{ .Values.deployment.strategy.type }}
     rollingUpdate:
@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "authztest.labels" . | nindent 8 }}
+        {{- include "authz.labels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
@@ -32,26 +32,26 @@ spec:
           volumeMounts:
             - name: {{ .Values.volumeMounts.name }}
               mountPath: {{ .Values.volumeMounts.mountPath }}
-        - name: {{ include "authztest.fullname" . }}
+        - name: {{ include "authz.fullname" . }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}
           env:
-          - name: PG_DATABASE
-            value: omegaauthztest
-          - name: PG_USER
+          - name: {{ .Values.deployment.env.name_base }}
+            value: {{ .Values.deployment.env.name_base_value }}
+          - name: {{ .Values.deployment.env.username_db }}
             valueFrom:
               secretKeyRef:
-                key: username
-                name: omega-db-creds
-          - name: PG_PASSWORD
+                key: {{ .Values.deployment.env.usernameKeyRef.username }}
+                name: {{ .Values.deployment.env.usernameKeyRef.name }}
+          - name: {{ .Values.deployment.env.password }}
             valueFrom:
               secretKeyRef:
-                key: password
-                name: omega-db-creds
-          - name: PG_HOST
-            value: omegaauthztest-rds-tf.cearikylb8tb.eu-west-1.rds.amazonaws.com
-          - name: PG_PORT
-            value: "5432"
+                key: {{ .Values.deployment.env.usernameKeyRef.password }}
+                name: {{ .Values.deployment.env.usernameKeyRef.name }}
+          - name: {{ .Values.deployment.env.hostname }}
+            value: {{ .Values.deployment.env.hostname_value }}
+          - name: {{ .Values.deployment.env.port_name }}
+            value: {{ .Values.deployment.env.port_value | squote }}
       volumes:
         - configMap:
-            name: {{ include "authztest.name" . }}-nginx-config
-          name: nginx-config
+            name: {{ include "bank.name" . }}-{{ .Values.deployment.volume_configMap }}
+          name: {{ .Values.deployment.volume_configMap }}

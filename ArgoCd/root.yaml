@@ -1,7 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: omegabank-autz
+  namespace: argocd
+  name: omegabank-bank
   finalizers:
 #    - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,7 +13,7 @@ spec:
     path: charts/authz
     helm:
       valueFiles:
-        - aws-prd.yaml
+        - values-aws-dev.yaml
       releaseName: omegabankauthz
   destination:
     name: in-cluster
