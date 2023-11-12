@@ -10,7 +10,7 @@ serviceAccount:
   create: true
   automount: true
   annotations: {}
-  name: authztestacc
+  name: authzacc
 podAnnotations: {}
 podLabels: {}
 podSecurityContext: {}
@@ -33,7 +33,8 @@ ingress:
         path: /authz(.*)
         pathType: ImplementationSpecific
       port: 80
-  tls: []
+  tls:
+    secretName: omega
 resources: {}
 autoscaling:
   enabled: false
@@ -59,7 +60,22 @@ deployment:
         containerPort: 80
         name: http
         protocol: TCP
+  env:
+     name_base: PG_DATABASE
+     name_base_value: omegabank
+     username_db: PG_USER
+     usernameKeyRef:
+       username: username
+       password: password
+       name: omega-db-creds
+     password: PG_PASSWORD
+     hostname: PG_HOST
+     hostname_value: omegabank-rds-tf.cearikylb8tb.eu-west-1.rds.amazonaws.com
+     port_name: PG_PORT
+     port_value: "5432"
+  volume_configMap: nginx-config
+
 labels:
   app: authz
   bank: omegabank
-  env: prd
+  env: dev

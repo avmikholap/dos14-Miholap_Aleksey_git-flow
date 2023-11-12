@@ -53,5 +53,5 @@ spec:
             value: {{ .Values.deployment.env.port_value | squote }}
       volumes:
         - configMap:
-            name: {{ include "bank.name" . }}-{{ .Values.deployment.volume_configMap }}
+            name: {{ include "authz.name" . }}-{{ .Values.deployment.volume_configMap }}
           name: {{ .Values.deployment.volume_configMap }}
