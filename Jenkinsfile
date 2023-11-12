@@ -43,6 +43,7 @@ pipeline {
           build == "${env.GIT_COMMIT}" &&  "${env.BRANCH_NAME}" == "master"
         }
        }
+      steps {
         sh "git checkout feature-CD"
         sh "git config --global pull.rebase true"
         sh "git pull origin"
