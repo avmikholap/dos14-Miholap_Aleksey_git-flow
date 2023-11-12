@@ -78,4 +78,4 @@ deployment:
 labels:
   app: authz
   bank: omegabank
-  env: dev
+  env: prd
