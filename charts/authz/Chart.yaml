@@ -1,4 +1,5 @@
 apiVersion: v2
+name: authztest
 name: authz
 description: A Helm chart for Kubernetes
 
